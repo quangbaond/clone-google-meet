@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #000;
+            overflow: hidden;
+        }
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="video-host">
+                        <video style="width: 100%;" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+                        <div class="hand" v-if="host.hand">
+                            <span style="font-size: 20px">🖐️</span>
+                        </div>
+                        <div class="muted" v-if="host.muted">
+                            <span style="font-size: 20px">🔇</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" :style="{
+                    height: innerHeight + '.px',
+                    overflowY: 'scroll'
+                }">
+                    <div class="video-guest" v-for="guest in guests" :key="guest.id">
+                        <video style="width: 100%;" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+                        <div class="hand" v-if="guest.hand">
+                            <span style="font-size: 20px">🖐️</span>
+                        </div>
+                        <div class="muted" v-if="guest.muted">
+                            <span style="font-size: 20px">🔇</span>
+                        </div>
+                        <div class="name-guset">
+                            <span>{{ guest.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: () => {
+                return {
+                    users: [
+                        {
+                            id: 1,
+                            name: 'jone due',
+                            isHost: true,
+                            hand: false,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 2,
+                            name: 'jone ngu',
+                            isHost: false,
+                            hand: true,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 3,
+                            name: 'Mon',
+                            isHost: false,
+                            hand: false,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 4,
+                            name: 'Ha',
+                            isHost: false,
+                            hand: false,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 5,
+                            name: 'Mon',
+                            isHost: false,
+                            hand: true,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 6,
+                            name: 'Mon',
+                            isHost: false,
+                            hand: true,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 7,
+                            name: 'Mon',
+                            isHost: false,
+                            hand: true,
+                            muted: true,
+                            webcam: false
+                        },
+                        {
+                            id: 8,
+                            name: 'ha Mon',
+                            isHost: false,
+                            hand: true,
+                            muted: true,
+                            webcam: false
+                        }
+                    ]
+                }
+            },
+            computed: {
+                host() {
+                    return this.users.find(item => item.isHost === true)
+                },
+                guests() {
+                    return this.users.filter(item => item.isHost === false).sort(function (x, y) {
+                        // true values first
+                        return (x === y) ? 0 : x ? -1 : 1;
+                        // false values first
+                        // return (x === y)? 0 : x? 1 : -1;
+                    });
+                },
+                innerHeight() {
+                    return window.innerHeight
+                }
+            }
+        })
+    </script>
+</body>
+</html>
+
+<style>
+
+    .video-guest, #video-host {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        padding: 3px;
+        border-radius: 14px;
+        position: relative;
+    }
+    video {
+        border-radius: 14px;
+        height: 100%;
+    }
+    .hand, .muted {
+        position: absolute;
+        top: 0;
+    }
+    .muted {
+        right: 0;
+    }
+    .guest {
+        overflow: auto;
+    }
+    .name-guset {
+        position: absolute;
+        bottom: 0%;
+        background-color: #000;
+        color: #f1f1f1;
+        opacity: .7;
+        left: 3%;
+        padding: 0 5px;
+    }
+</style>
